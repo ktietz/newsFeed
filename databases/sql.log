@@ -76,3 +76,7 @@ CREATE TABLE comment(
     body TEXT
 );
 success!
+timestamp: 2012-11-09T09:40:13.054588
+ALTER TABLE newsItem ADD body CHAR(512);
+timestamp: 2012-11-09T09:40:13.080400
+ALTER TABLE comment ADD newsitem_id INTEGER REFERENCES newsItem (id) ON DELETE CASCADE;

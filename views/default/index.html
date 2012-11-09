@@ -1,7 +1,13 @@
 {{extend 'layout.html'}}
-<h1>Current Images</h1>
+<h1 xmlns="http://www.w3.org/1999/html">News Feed</h1>
+</br>
 <ul>
-    {{for image in images:}}
-    {{=LI(A(image.title, _href=URL("show", args=image.id)))}}
-    {{pass}}
+{{for newsItem in newsItems:}}
+<!--{{=LI(A(newsItem.title, _href=URL("show", args=newsItem.id)))}}-->
+    <p><h3>{{=newsItem.title}}</h3></p>
+    <p>{{=newsItem.body}}</p>
+
+{{pass}}
+</br>
+<a href="/newsFeed/default/manage.html">Manage</a>
 </ul>

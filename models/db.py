@@ -1,10 +1,11 @@
 db = DAL("sqlite://storage.sqlite")
-db.define_table('image', Field('title', unique=True), Field('file', 'upload'), format = '%(title)s')
-db.define_table('comment', Field('image_id', db.image), Field('author'), Field('email'), Field('body', 'text'))
+db.define_table('newsItem', Field('title', unique=True), Field('body', 'text'), format = '%(title)s')
 
-db.image.title.requires = IS_NOT_IN_DB(db, db.image.title)
-db.comment.image_id.requires = IS_IN_DB(db, db.image.id, '%(title)s')
-db.comment.author.requires = IS_NOT_EMPTY()
-db.comment.email.requires = IS_EMAIL()
-db.comment.body.requires = IS_NOT_EMPTY()
-db.comment.image_id.writable = db.comment.image_id.readable = False
+db.newsItem.title.requires = IS_NOT_IN_DB(db, db.newsItem.title)
+
+from gluon.tools import Auth
+auth = Auth(db)
+auth.define_tables()
+
+from gluon.tools import Crud
+crud = Crud(db)

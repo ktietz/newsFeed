@@ -1,0 +1,13 @@
+{{extend 'layout.html'}}
+<h1>newsItem: {{=newsItems.title}}</h1>
+
+{{if len(newsItems):}}
+    <h2>News Feed</h2><br /><p>
+    {{for newsItem in newsItems:}}
+      <p>{{=newsItem.body}}</p>
+    {{pass}}</p>
+{{else:}}
+  <h2>No News posted yet</h2>
+{{pass}}
+<h2>Post a News Item</h2>
+{{=newsItemForm}}

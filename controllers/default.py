@@ -1,13 +1,21 @@
+def user():
+        return dict(form=auth())
+
 def index():
-    images = db().select(db.image.ALL, orderby=db.image.title)
-    return dict(images=images)
+    newsItems = db().select(db.newsItem.ALL, orderby=db.newsItem.title)
+    return dict(newsItems=newsItems)
+
 def show():
-    image = db(db.image.id==request.args(0)).select().first()
-    db.comment.image_id.default = image.id
-form = SQLFORM(db.comment)
-if form.process().accepted:
-    response.flash = 'your comment is posted'
-comments = db(db.comment.image_id==image.id).select()
-return dict(image=image, comments=comments, form=form)
+    newsItems = db.newsItem(request.args(0)) or redirect(URL('index'))
+    newsItemForm = crud.create(db.newsItem, message="Your News Item is posted", next=URL(args=newsItems.id))
+    return dict(newsItems=newsItems, comments=comments, form=form, newsItemForm=newsItemForm)
+
 def download():
     return response.download(request, db)
+
+#@auth.requires_membership('manager')
+def manage():
+    grid = SQLFORM.smartgrid(db.newsItem)
+    #newsItem = db.newsItem(request.args(0)) or redirect(URL('manage'))
+    newsItemForm = crud.create(db.newsItem, message="Your news item is posted")
+    return dict(newsItemForm=newsItemForm, grid=grid)
